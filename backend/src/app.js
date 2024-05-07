@@ -14,6 +14,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
 
+//routes
+/* app.use("/CMS/", require("./CMS/routes/testRoutes"));
+app.use("/common/", require("./common/routes/testCommonRoutes")); */
+
 app.get("/", (req, res) => {
   res.send("welcome to the Student Management System");
 });

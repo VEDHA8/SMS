@@ -7,7 +7,7 @@ import connectDB from "./common/utils/DBconnection";
 
 const app = express();
 
-const PORT = process.env.PORT || "5001"; //port
+const PORT = process.env.PORT || "8080"; //port
 
 //middlewares
 app.use(bodyParser.urlencoded({ extended: true }));

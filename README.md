@@ -1,2 +1,0 @@
-# SMS
-student management system

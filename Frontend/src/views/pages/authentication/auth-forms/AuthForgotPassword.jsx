@@ -35,7 +35,12 @@ const AuthForgotPassword = ({ ...others }) => {
         <Formik
             initialValues={{ email: '', submit: null }}
             validationSchema={Yup.object().shape({
-                email: Yup.string().email('Must be a valid email').max(255).required('Email is required')
+                email: Yup.string()
+                .email('Invalid email format')
+                .matches(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/, 'Invalid email format')
+                .transform(value => value.toLowerCase())
+                .trim()
+                .required('Email is required')
             })}
             onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                 try {

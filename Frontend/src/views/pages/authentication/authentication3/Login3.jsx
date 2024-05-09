@@ -11,9 +11,10 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import AuthWrapper1 from '../AuthWrapper1';
 import AuthCardWrapper from '../AuthCardWrapper';
 import AuthLogin from '../auth-forms/AuthLogin';
-import Logo from 'ui-component/Logo';
+import Logo from 'assets/images/logo-1-qhtr1m2xx7hk0xjdkg6ygpx60fonl3gxzbt8opqwhs (1).webp';
 import AuthFooter from 'ui-component/cards/AuthFooter';
 import useAuth from 'hooks/useAuth';
+import bgImage from'assets/images/Pulaski-Mountains.jpg';
 
 // assets
 
@@ -25,16 +26,14 @@ const Login = () => {
 
     return (
         <AuthWrapper1>
-            <Grid container direction="column" justifyContent="flex-end" sx={{ minHeight: '100vh' }}>
+            <Grid container direction="column" justifyContent="flex-end" sx={{ minHeight: '100vh', backgroundColor: '#001d4f', backgroundImage:`url("${bgImage}")`, backgroundSize:'cover' }}>
                 <Grid item xs={12}>
                     <Grid container justifyContent="center" alignItems="center" sx={{ minHeight: 'calc(100vh - 68px)' }}>
                         <Grid item sx={{ m: { xs: 1, sm: 3 }, mb: 0 }}>
                             <AuthCardWrapper>
                                 <Grid container spacing={2} alignItems="center" justifyContent="center">
                                     <Grid item sx={{ mb: 3 }}>
-                                        <Link to="#" aria-label="logo">
-                                            <Logo />
-                                        </Link>
+                                        <img src={Logo} style={{height:"48px"}}/>
                                     </Grid>
                                     <Grid item xs={12}>
                                         <Grid
@@ -46,14 +45,7 @@ const Login = () => {
                                             <Grid item>
                                                 <Stack alignItems="center" justifyContent="center" spacing={1}>
                                                     <Typography color="secondary.main" gutterBottom variant={downMD ? 'h3' : 'h2'}>
-                                                        Hi, Welcome Back
-                                                    </Typography>
-                                                    <Typography
-                                                        variant="caption"
-                                                        fontSize="16px"
-                                                        textAlign={{ xs: 'center', md: 'inherit' }}
-                                                    >
-                                                        Enter your credentials to continue
+                                                        Login-LMS
                                                     </Typography>
                                                 </Stack>
                                             </Grid>

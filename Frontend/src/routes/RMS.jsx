@@ -8,18 +8,13 @@ import AuthGuard from 'utils/route-guard/AuthGuard';
 
 import { loader as productsLoader, productLoader } from 'api/products';
 
-// advance ui-elements routing
-const AdvanceUIAlert = Loadable(lazy(() => import('views/RMS/ui-elements/advance/UIAlert')));
-const AdvanceUIDialog = Loadable(lazy(() => import('views/RMS/ui-elements/advance/UIDialog')));
-const AdvanceUIPagination = Loadable(lazy(() => import('views/RMS/ui-elements/advance/UIPagination')));
-const AdvanceUIProgress = Loadable(lazy(() => import('views/RMS/ui-elements/advance/UIProgress')));
-const AdvanceUIRating = Loadable(lazy(() => import('views/RMS/ui-elements/advance/UIRating')));
-const AdvanceUISnackbar = Loadable(lazy(() => import('views/RMS/ui-elements/advance/UISnackbar')));
-const AdvanceUISkeleton = Loadable(lazy(() => import('views/RMS/ui-elements/advance/UISkeleton')));
-const AdvanceUISpeeddial = Loadable(lazy(() => import('views/RMS/ui-elements/advance/UISpeeddial')));
-const AdvanceUITimeline = Loadable(lazy(() => import('views/RMS/ui-elements/advance/UITimeline')));
-const AdvanceUIToggleButton = Loadable(lazy(() => import('views/RMS/ui-elements/advance/UIToggleButton')));
-const AdvanceUITreeview = Loadable(lazy(() => import('views/RMS/ui-elements/advance/UITreeview')));
+// advance Dashboard routing
+const AdvanceUIAlert = Loadable(lazy(() => import('views/RMS/ui-elements/advance/Dashboard/index')));
+
+// basic Students routing
+const BasicUIAccordion = Loadable(lazy(() => import('views/RMS/ui-elements/basic/ViweAllStudents/index')));
+const BasicUIAvatar = Loadable(lazy(() => import('views/RMS/ui-elements/basic/DetailedRegistratin/index')));
+const BasicUIBadges = Loadable(lazy(() => import('views/RMS/ui-elements/basic/QuickRegistration/index')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -35,45 +30,18 @@ const MainRoutes = {
             path: '/advance/alert',
             element: <AdvanceUIAlert />
         },
+        
         {
-            path: '/advance/dialog',
-            element: <AdvanceUIDialog />
+            path: '/basic/accordion',
+            element: <BasicUIAccordion />
         },
         {
-            path: '/advance/pagination',
-            element: <AdvanceUIPagination />
+            path: '/basic/avatar',
+            element: <BasicUIAvatar />
         },
         {
-            path: '/advance/progress',
-            element: <AdvanceUIProgress />
-        },
-        {
-            path: '/advance/rating',
-            element: <AdvanceUIRating />
-        },
-        {
-            path: '/advance/snackbar',
-            element: <AdvanceUISnackbar />
-        },
-        {
-            path: '/advance/skeleton',
-            element: <AdvanceUISkeleton />
-        },
-        {
-            path: '/advance/speeddial',
-            element: <AdvanceUISpeeddial />
-        },
-        {
-            path: '/advance/timeline',
-            element: <AdvanceUITimeline />
-        },
-        {
-            path: '/advance/toggle-button',
-            element: <AdvanceUIToggleButton />
-        },
-        {
-            path: '/advance/treeview',
-            element: <AdvanceUITreeview />
+            path: '/basic/badges',
+            element: <BasicUIBadges />
         }
     ]
 };

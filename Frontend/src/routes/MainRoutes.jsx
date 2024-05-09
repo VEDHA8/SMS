@@ -135,16 +135,6 @@ const FrmFormsWizard = Loadable(lazy(() => import('views/forms/forms-wizard')));
 const ChartApexchart = Loadable(lazy(() => import('views/forms/chart/Apexchart')));
 const OrgChartPage = Loadable(lazy(() => import('views/forms/chart/OrgChart')));
 
-// basic ui-elements routing
-const BasicUIAccordion = Loadable(lazy(() => import('views/ui-elements/basic/UIAccordion')));
-const BasicUIAvatar = Loadable(lazy(() => import('views/ui-elements/basic/UIAvatar')));
-const BasicUIBadges = Loadable(lazy(() => import('views/ui-elements/basic/UIBadges')));
-const BasicUIBreadcrumb = Loadable(lazy(() => import('views/ui-elements/basic/UIBreadcrumb')));
-const BasicUICards = Loadable(lazy(() => import('views/ui-elements/basic/UICards')));
-const BasicUIChip = Loadable(lazy(() => import('views/ui-elements/basic/UIChip')));
-const BasicUIList = Loadable(lazy(() => import('views/ui-elements/basic/UIList')));
-const BasicUITabs = Loadable(lazy(() => import('views/ui-elements/basic/UITabs')));
-
 // utilities routing
 const UtilsTypography = Loadable(lazy(() => import('views/utilities/Typography')));
 const UtilsColor = Loadable(lazy(() => import('views/utilities/Color')));
@@ -548,39 +538,6 @@ const MainRoutes = {
         {
             path: '/forms/forms-wizard',
             element: <FrmFormsWizard />
-        },
-
-        {
-            path: '/basic/accordion',
-            element: <BasicUIAccordion />
-        },
-        {
-            path: '/basic/avatar',
-            element: <BasicUIAvatar />
-        },
-        {
-            path: '/basic/badges',
-            element: <BasicUIBadges />
-        },
-        {
-            path: '/basic/breadcrumb',
-            element: <BasicUIBreadcrumb />
-        },
-        {
-            path: '/basic/cards',
-            element: <BasicUICards />
-        },
-        {
-            path: '/basic/chip',
-            element: <BasicUIChip />
-        },
-        {
-            path: '/basic/list',
-            element: <BasicUIList />
-        },
-        {
-            path: '/basic/tabs',
-            element: <BasicUITabs />
         },
 
         {

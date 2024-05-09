@@ -9,7 +9,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 // project imports
 import AuthWrapper1 from '../AuthWrapper1';
 import AuthCardWrapper from '../AuthCardWrapper';
-import Logo from 'ui-component/Logo';
+import Logo from 'assets/images/logo-1-qhtr1m2xx7hk0xjdkg6ygpx60fonl3gxzbt8opqwhs (1).webp';
 import AuthForgotPassword from '../auth-forms/AuthForgotPassword';
 import AuthFooter from 'ui-component/cards/AuthFooter';
 import useAuth from 'hooks/useAuth';
@@ -29,9 +29,7 @@ const ForgotPassword = () => {
                             <AuthCardWrapper>
                                 <Grid container spacing={2} alignItems="center" justifyContent="center">
                                     <Grid item sx={{ mb: 3 }}>
-                                        <Link to="#" aria-label="theme logo">
-                                            <Logo />
-                                        </Link>
+                                        <img src={Logo} style={{height:"48px"}}/>
                                     </Grid>
                                     <Grid item xs={12}>
                                         <Grid container alignItems="center" justifyContent="center" textAlign="center" spacing={2}>

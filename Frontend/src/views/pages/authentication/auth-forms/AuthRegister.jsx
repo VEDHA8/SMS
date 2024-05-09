@@ -26,12 +26,39 @@ import { Formik } from 'formik';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import useAuth from 'hooks/useAuth';
 import useScriptRef from 'hooks/useScriptRef';
-import { strengthColor, strengthIndicator } from 'utils/password-strength';
 import { openSnackbar } from 'store/slices/snackbar';
 
 // assets
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+
+//Function to check password strength
+const checkPasswordStrength = (password) => {
+    let strength = 0;
+
+    // Check for 3 capital letters
+    if (/[A-Z].*[A-Z].*[A-Z]/.test(password)) {
+        strength += 1;
+    }
+
+    // Check for minimum 3 numbers
+    if (/\d{3}/.test(password)) {
+        strength += 1;
+    }
+
+    // Check for 5 capital letters, 3 lowercase letters, and 4 numbers
+    if (/[A-Z].*[A-Z].*[A-Z].*[A-Z].*[A-Z]/.test(password) && /[a-z].*[a-z].*[a-z]/.test(password) && /\d{4}/.test(password)) {
+        strength += 1;
+    }
+
+    // If none of the above criteria met, classify as weak
+    if (strength === 0) {
+        return 0; // Weak
+    }
+
+    return strength;
+};
+
 
 // ===========================|| FIREBASE - REGISTER ||=========================== //
 
@@ -45,7 +72,7 @@ const JWTRegister = ({ ...others }) => {
     const [checked, setChecked] = React.useState(true);
 
     const [strength, setStrength] = React.useState(0);
-    const [level, setLevel] = React.useState();
+    const [level, setLevel] = React.useState({ color: 'error.main', label: 'Weak' });
     const { register } = useAuth();
 
     const handleClickShowPassword = () => {
@@ -56,13 +83,29 @@ const JWTRegister = ({ ...others }) => {
         event.preventDefault();
     };
 
+   
+
     const changePassword = (value) => {
-        const temp = strengthIndicator(value);
-        setStrength(temp);
-        setLevel(strengthColor(temp));
+        const tempStrength = checkPasswordStrength(value);
+        setStrength(tempStrength);
+
+        // Set password strength level based on strength score
+        let tempLevel;
+        if (tempStrength === 0) {
+            tempLevel = { color: 'error.main', label: 'Weak' };
+        } else if (tempStrength === 1) {
+            tempLevel = { color: 'warning.main', label: 'Normal' };
+        } else if (tempStrength === 2) {
+            tempLevel = { color: 'success.dark', label: 'Strong' };
+        } else if (tempStrength === 3) {
+            tempLevel = { color: 'success.main', label: 'Very Strong' };
+        }
+        setLevel(tempLevel);
     };
+    
 
     useEffect(() => {
+        // Initialize password strength check with default password
         changePassword('123456');
     }, []);
 
@@ -82,11 +125,46 @@ const JWTRegister = ({ ...others }) => {
                     password: '',
                     firstName: '',
                     lastName: '',
+                    phone_no: '',
                     submit: null
                 }}
+                // validations
                 validationSchema={Yup.object().shape({
-                    email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-                    password: Yup.string().max(255).required('Password is required')
+                    // First Name
+                    firstName: Yup.string()
+                    .max(100, 'First name will be maximum 100 letters')
+                    .min(5, 'First name will be least 5 letters')
+                    .required('First Name is required'),
+                    // Last Name
+                    lastName: Yup.string()
+                    .max(100, 'Last name will be maximum 100 letters')
+                    .min(5, 'Last name will be least 5 letters')
+                    .required('Last Name is required'),
+                    // Phone number
+                    phone_no: Yup.string()
+                    .matches(/^[0-9]+$/, 'Phone number cannot contain letters or symbols')
+                    .max(11, 'Phone number should be maximum 10 digits.')
+                    .min(9, 'Phone number should be minimum 9 digits.'),
+                    // E-mail
+                    email: Yup.string()
+                    .email('Must be a valid email')
+                    .matches(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/, 'Invalid email format')
+                    .transform(value => value.toLowerCase())
+                    .trim()
+                    .required('Email is required'),
+                    // Password
+                    password: Yup.string()
+                    .max(255, 'Password should not exceed 255 characters')
+                    .required('Password is required')
+                    .test('uppercase', 'Password should contain at least 3 capital letters', value => {
+                        return (value.match(/[A-Z]/g) || []).length >= 3;
+                    })
+                    .test('numbers', 'Password should contain at least 3 numbers', value => {
+                        return (value.match(/\d/g) || []).length >= 3;
+                    })
+                    .test('complexity', 'Password does not meet complexity requirements', value => {
+                        return checkPasswordStrength(value) >= 2; // 2 is the strength score for a strong password
+                    })
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     try {
@@ -124,34 +202,63 @@ const JWTRegister = ({ ...others }) => {
                     <form noValidate onSubmit={handleSubmit} {...others}>
                         <Grid container spacing={{ xs: 0, sm: 2 }}>
                             <Grid item xs={12} sm={6}>
-                                <TextField
-                                    fullWidth
-                                    label="First Name"
-                                    margin="normal"
-                                    name="firstName"
+                                <FormControl fullWidth error={Boolean(touched.firstName && errors.firstName)} sx={{ ...theme.typography.customInput }}>
+                                <InputLabel htmlFor="outlined-adornment-phone-number-register">First Name</InputLabel>
+                                <OutlinedInput
+                                    id="outlined-adornment-first-name-register"
                                     type="text"
                                     value={values.firstName}
+                                    name="firstName"
                                     onBlur={handleBlur}
                                     onChange={handleChange}
-                                    sx={{ ...theme.typography.customInput }}
+                                    inputProps={{}}
                                 />
+                                {touched.firstName && errors.firstName && (
+                                    <FormHelperText error id="standard-weight-helper-text--register">
+                                        {errors.firstName}
+                                    </FormHelperText>
+                                )}
+                            </FormControl>
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <TextField
-                                    fullWidth
-                                    label="Last Name"
-                                    margin="normal"
-                                    name="lastName"
-                                    type="text"
-                                    value={values.lastName}
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    sx={{ ...theme.typography.customInput }}
-                                />
+                                <FormControl fullWidth error={Boolean(touched.lastName && errors.lastName)} sx={{ ...theme.typography.customInput }}>
+                                    <InputLabel htmlFor="outlined-adornment-phone-number-register">Last Name</InputLabel>
+                                    <OutlinedInput
+                                        id="outlined-adornment-last-name-register"
+                                        type="text"
+                                        value={values.lastName}
+                                        name="lastName"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        inputProps={{}}
+                                    />
+                                    {touched.lastName && errors.lastName && (
+                                        <FormHelperText error id="standard-weight-helper-text--register">
+                                            {errors.lastName}
+                                        </FormHelperText>
+                                    )}
+                                </FormControl>
                             </Grid>
                         </Grid>
+                        <FormControl fullWidth error={Boolean(touched.phone_no && errors.phone_no)} sx={{ ...theme.typography.customInput }}>
+                            <InputLabel htmlFor="outlined-adornment-phone-number-register">Phone Number</InputLabel>
+                            <OutlinedInput
+                                id="outlined-adornment-phone-number-register"
+                                type="number"
+                                value={values.phone_no}
+                                name="phone_no"
+                                onBlur={handleBlur}
+                                onChange={handleChange}
+                                inputProps={{}}
+                            />
+                            {touched.phone_no && errors.phone_no && (
+                                <FormHelperText error id="standard-weight-helper-text--register">
+                                    {errors.phone_no}
+                                </FormHelperText>
+                            )}
+                        </FormControl>
                         <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...theme.typography.customInput }}>
-                            <InputLabel htmlFor="outlined-adornment-email-register">Email Address / Username</InputLabel>
+                            <InputLabel htmlFor="outlined-adornment-email-register">Email Address</InputLabel>
                             <OutlinedInput
                                 id="outlined-adornment-email-register"
                                 type="email"
